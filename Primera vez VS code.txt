@@ -1,0 +1,42 @@
+    def guardar_tareas(tareas, archivo="tareas.txt"):
+        with open(archivo, "w", encoding="utf-8") as f:
+            json.dump(tareas, f, ensure_ascii=False, indent=2)
+
+    def cargar_tareas(archivo="tareas.txt"):
+        if os.path.exists(archivo):
+            with open(archivo, "r", encoding="utf-8") as f:
+                return json.load(f)
+        return []
+
+    def main():
+        tareas = cargar_tareas()
+        while True:
+            print("\nMenú")
+            print("1. Agregar tarea")
+            print("2. Mostrar tareas")
+            print("3. Salir")
+            opcion = input("Selecciona una opción (1-3): ").strip()
+
+            if opcion == "1":
+                tarea = input("Escribe la tarea: ").strip()
+                if tarea:
+                    tareas.append(tarea)
+                    print("Tarea agregada.")
+                    guardar_tareas(tareas)
+                else:
+                    print("No se ingresó tarea.")
+            elif opcion == "2":
+                if tareas:
+                    print("Tareas:")
+                    for i, t in enumerate(tareas, 1):
+                        print(f"{i}. {t}")
+                else:
+                    print("No hay tareas.")
+            elif opcion == "3":
+                print("Saliendo.")
+                break
+            else:
+                print("Opción no válida.")
+
+    if __name__ == "__main__":
+        main()
